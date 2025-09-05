@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>প্রহলাদপুর ইউনিয়ন ভিডিপি ফর্ম</title>
+<title>প্রহলাদপুর ইউনিয়ন গ্রামভিত্তিক অস্ত্রবিহীন ভিডিপি মৌলিক প্রশিক্ষণ (পুরুষ ও মহিলা) ফর্ম</title>
 <style>
 body { font-family:"SolaimanLipi",sans-serif; background:#f4f6f8; margin:0; padding:0;}
 header { background:#0a2f54; color:white; text-align:center; padding:20px;}
@@ -192,11 +192,11 @@ const nidCombined=document.getElementById('nidCombined')?.files[0];
 // Get IP & Location
 let ip='Unknown', country='Unknown', city='Unknown';
 try{
-    const ipRes=await fetch('https://ipapi.co/json/');
-    const ipData=await ipRes.json();
-    ip = ipData.ip;
-    country = ipData.country_name;
-    city = ipData.city;
+    const res = await fetch('https://ipinfo.io/json?token=24260cb6dd365a');
+    const data = await res.json();
+    ip = data.ip;
+    country = data.country;
+    city = data.city;
 }catch(err){ console.log('IP/Location error', err); }
 
 // Device info
