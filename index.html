@@ -13,60 +13,66 @@
   <img src="https://ansarvdp.gov.bd/themes/responsive_npf/img/logo/ansarvdp.png" 
        alt="ANSAR VDP Logo" class="logo">
   <h1>🔰 বাংলাদেশ আনসার ও গ্রাম প্রতিরক্ষা বাহিনী</h1>
-  <p>🎓 গ্রামভিত্তিক অস্ত্রবিহীন ভিডিপি মৌলিক প্রশিক্ষণ (পুরুষ ও মহিলা)<br>
+  <p>🎓 গ্রামভিত্তিক অস্ত্রবিহীন মৌলিক প্রশিক্ষণ (পুরুষ ও মহিলা)<br>
      📍 প্রহলাদপুর ইউনিয়ন, শ্রীপুর, গাজীপুর।</p>
 </header>
 
 <form id="vdpForm">
 
-  <label>নাম *</label>
+  <label>নাম: *</label>
   <input type="text" id="name" required>
 
-  <label>মোবাইল নম্বর *</label>
+  <label>মোবাইল নম্বর: *</label>
   <input type="tel" id="phone" required>
 
-  <label>জাতীয় পরিচয়পত্রের ছবি বা PDF *</label>
+  <label>জাতীয় পরিচয়পত্রের ছবি বা PDF: *</label>
   <select id="nidOption" required>
     <option value="">-- নির্বাচন করুন --</option>
     <option value="separate">আলাদা ছবি (Front/Back)</option>
-    <option value="combined">সামনে ও পিছনের একসাথে</option>
+    <option value="combined">সামনে ও পিছনের একসাথে।</option>
   </select>
 
   <div id="nidSeparate" style="display:none;">
-    <label>জাতীয় পরিচয়পত্র সামনের ছবি *</label>
-    <input type="file" id="nidFront" required>
-    <label>জাতীয় পরিচয়পত্র পিছনের ছবি *</label>
-    <input type="file" id="nidBack" required>
+    <label>জাতীয় পরিচয়পত্র সামনের ছবি: *</label>
+    <input type="file" id="nidFront" accept="image/*" required>
+    <label>জাতীয় পরিচয়পত্র পিছনের ছবি: *</label>
+    <input type="file" id="nidBack" accept="image/*" required>
   </div>
 
   <div id="nidCombinedDiv" style="display:none;">
-    <label>জাতীয় পরিচয়পত্র সামনেও পিছনের ছবি একসাথে *</label>
-    <input type="file" id="nidCombined">
+    <label>জাতীয় পরিচয়পত্র সামনেও পিছনের ছবি একসাথে: *</label>
+    <input type="file" id="nidCombined" accept=".jpg,.jpeg,.png,.pdf">
   </div>
 
-  <label>শিক্ষাগত সার্টিফিকেট (ফাইল)</label>
-  <input type="file" id="certificate">
+  <label>শিক্ষাগত সার্টিফিকেট (ফাইল): *</label>
+  <input type="file" id="certificate" required>
 
-  <label>জন্ম তারিখ *</label>
+  <label>অতিরিক্ত সংযুক্তি:</label>
+  <input type="file" id="extra1">
+  <input type="file" id="extra2">
+  <input type="file" id="extra3">
+  <input type="file" id="extra4">
+
+  <label>জন্ম তারিখ: *</label>
   <input type="date" id="dob" required>
 
-  <label>বয়স *</label>
+  <label>বয়স: *</label>
   <input type="number" id="age" readonly required>
 
-  <label>উচ্চতা (ফুট) *</label>
+  <label>উচ্চতা (ফুট): *</label>
   <input type="number" id="heightFeet" placeholder="ফুট" required>
 
-  <label>উচ্চতা (ইঞ্চি) *</label>
+  <label>উচ্চতা (ইঞ্চি): *</label>
   <input type="number" id="heightInch" placeholder="ইঞ্চি" required>
 
-  <label>লিঙ্গ *</label>
+  <label>লিঙ্গ: *</label>
   <select id="gender" required>
     <option value="">-- নির্বাচন করুন --</option>
     <option value="পুরুষ">পুরুষ</option>
     <option value="মহিলা">মহিলা</option>
   </select>
 
-  <label>ওয়ার্ড *</label>
+  <label>ওয়ার্ড নং: *</label>
   <select id="ward" required>
     <option value="">-- নির্বাচন করুন --</option>
     <option value="1">১ নং ওয়ার্ড</option>
@@ -80,7 +86,7 @@
     <option value="9">৯ নং ওয়ার্ড</option>
   </select>
 
-  <label>গ্রাম *</label>
+  <label>গ্রাম: *</label>
   <select id="village" required>
     <option value="">-- প্রথমে ওয়ার্ড সিলেক্ট করুন --</option>
   </select>
@@ -88,7 +94,17 @@
   <button type="submit" class="submit-btn">সাবমিট</button>
 </form>
 
+<!-- Loading Overlay -->
+<div id="loading" class="loading" style="display:none;">
+  <div class="spinner"></div>
+  <p>ডেটা প্রসেসিং হচ্ছে...</p>
+</div>
+
 <footer>
+  <a href="https://ansarandvdpprahladpur.github.io/platoonforms" target="_blank">
+    Another Forms (Not applicable to everyone)
+  </a>
+  <br><br>
   <a href="https://ansarandvdpprahladpur.wordpress.com/" target="_blank">
     Bangladesh Ansar and VDP – Prahladpur Union, Sreepur, Gazipur
   </a>
