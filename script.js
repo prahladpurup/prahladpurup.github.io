@@ -139,7 +139,7 @@ form.addEventListener('submit', async (e) => {
 
   // Google Sheet এ পাঠানো
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbwRjT6dhEc0MhapeKtUKP4RI3jUqwZPdUqsxgKnYGrX7YbDnZ-WKUGD_BkzmvmZLlvrCg/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbxdHxGFdM-5yifURzZnBtoNMrF9UWp2A6wcFtO591_Ki3_oRDoyERFECQtZiYgmg6FMcw/exec", {
       method: "POST",
       body: JSON.stringify({
         name, phone, dob, age, heightFeet, heightInch,
