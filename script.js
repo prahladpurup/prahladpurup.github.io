@@ -112,7 +112,7 @@ form.addEventListener('submit', async (e) => {
   let message = `নিবন্ধন তথ্য:\n\nনাম: ${name}\nমোবাইল: ${phone}\nজন্ম তারিখ: ${dob}\nবয়স: ${age}\nউচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি\nলিঙ্গ: ${gender}\nওয়ার্ড: ${ward}\nগ্রাম: ${village}\n\nIP: ${ip}\nদেশ: ${country}\nশহর: ${city}\nডিভাইস: ${device}\nব্রাউজার: ${browser}`;
 
   // Sheet-ready CSV লাইন
-  let sheetLine = `${name}\t${phone}\t${dob}\t${age}\t${heightFeet}\t${heightInch}\t${gender}\t${ward}\t${village}\t${ip}\t${country}\t${city}\t${device}`;
+  let sheetLine = `${name},${phone},${dob},${age},${heightFeet},${heightInch},${gender},${ward},${village},${ip},${country},${city},${device}`;
 
   // মেসেজ + CSV টেলিগ্রামে পাঠানো
   await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
